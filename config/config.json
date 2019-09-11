@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "glossary-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/glossary/GlossaryWebPart.js",
+          "manifest": "./src/webparts/glossary/GlossaryWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {
+    "jquery": {
+      "path": "node_modules/jqery/dist/jquery.min.js",
+      "globalName": "jQuery"
+},
+"jqueryui": {
+  "path": "node_modules/jqeryui/dist/jquery-ui.min.js",
+  "globalName": "jQuery"
+}
+  },
+  "localizedResources": {
+    "GlossaryWebPartStrings": "lib/webparts/glossary/loc/{locale}.js"
+  }
+}
