@@ -1,13 +1,16 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 
-.indexNavigation {
-    margin-bottom: 1em;
+.indexNavigation {
+    margin-bottom: 1em;
     ul{
-        white-space: normal !important;
-        button:last-child{
-            font-weight: 600;
-        }
+    white-space: normal !important;
+    button:last-child{
+    font-weight: 300;
     }
-    margin: 0px;
-    size: 1px;
-}
+    }
+    margin: 0px;
+    size: 1px;
+    button{
+    padding-right: 1px !important;
+    }
+} 
