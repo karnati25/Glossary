@@ -21,6 +21,7 @@ import { IndexNavigation } from "./IndexNavigation";
 import { string } from 'prop-types';
 
 export default class Glossary extends React.Component<IGlossaryProps, IGlossaryState> {
+
   private _initialState: any = {
     initialContainer:[],
     loading: false,
@@ -90,6 +91,9 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
  // let self =this;
   // this.getlistdata().
   var list=this.props.ListName;
+
+
+  
   sp.web.lists.getByTitle(list).items.select('Id,Title,Description').get().then((items: IListItems[]) => {
       
        if (items.length > 0) {
@@ -110,7 +114,9 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
       
       if(this.state.initialContainer && selectedIndex) {
         items= this.state.initialContainer.filter((element) => (element.Title.charAt(0).toLowerCase() === selectedIndex.toLowerCase()));
-      } else {
+  
+      } else
+      {
         items = this.state.initialContainer || [];
   
         return items;
@@ -147,12 +153,14 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
   
   public render(): React.ReactElement<IGlossaryProps> {
 
-    alert('hi');
+  
    console.log(this.state.items);
     
   const items: JSX.Element[] = this.state.items.map((item: IListItems, i: number): JSX.Element => {
     return (
-      <li><div><strong>{item.Title}</strong></div><div>({item.Description})</div> </li> 
+      <li><div><strong>{item.Title}</strong></div><div>{item.Description.toString()}</div> </li> 
+
+      //{escape(this.props.listName)}
     );
   });
  const { loading, errorMessage, selectedIndex} = this.state;
@@ -169,7 +177,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         }
          
         <IndexNavigation
-          selectedIndex={selectedIndex}
+         selectedIndex={selectedIndex}
           onIndexSelect={this._loadlistitems.bind(this)}
           locale={this.props.locale} />
         {
