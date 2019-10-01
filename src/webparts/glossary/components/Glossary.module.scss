@@ -1,6 +1,15 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
 .glossary {
+
+.glist{
+  list-style: none;
+}
+.glist li{
+
+  padding-bottom: 10px
+}
+
   .container {
     max-width: 100%;
     margin: 0px auto;
@@ -11,17 +20,18 @@
     width:100%;
   }
 
-  .pageContent_67127239
-{
- max-width: 100% !important;
+//   .pageContent_67127239
+// {
+//  max-width: 100% !important;
 
-}
+// }
 
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
     background-color: $ms-color-themeDark;
-    padding: 20px;
+    padding: 10px!important;
+    margin: 0px!important;
   }
 
   .column {
@@ -86,9 +96,5 @@
       display: inline-block;
     }
   }
-  .pageContent_67127239
-{
- max-width: 100% !important;
-
-}
+ 
 }

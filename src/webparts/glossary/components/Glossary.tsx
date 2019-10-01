@@ -3,12 +3,12 @@ import styles from './Glossary.module.scss';
 import { IGlossaryProps } from './IGlossaryProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 //import * as $ from 'jquery';
-import { sp, Items} from "@pnp/sp";
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+import { sp} from "@pnp/sp";
+//import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import{IListItems} from "./IListItems";
 import { IGlossaryState } from './IGlossaryState';
 import * as strings from 'GlossaryWebPartStrings';
-import{IListSearchResults, ICell} from "./IListSearchResults";
+//import{IListSearchResults, ICell} from "./IListSearchResults";
 import {
   Spinner,
   SpinnerSize
@@ -18,10 +18,9 @@ import {
   MessageBarType
 } from 'office-ui-fabric-react/lib/MessageBar';
 import { IndexNavigation } from "./IndexNavigation";
-import { string } from 'prop-types';
+//import { string } from 'prop-types';
 
 export default class Glossary extends React.Component<IGlossaryProps, IGlossaryState> {
-
   private _initialState: any = {
     initialContainer:[],
     loading: false,
@@ -44,7 +43,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
     },
       function () {
         // load information about people matching the selected tab
-        this._loadlistitems(index, null);
+        this._loadlistitems(index);
       });
 
   }
@@ -59,7 +58,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
       
       console.log(items);
       resolve(items); 
-      debugger;
+      
       })
       .catch((error: any): void => {
         // An exception has occurred while loading the data. Notify the user
@@ -91,9 +90,6 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
  // let self =this;
   // this.getlistdata().
   var list=this.props.ListName;
-
-
-  
   sp.web.lists.getByTitle(list).items.select('Id,Title,Description').get().then((items: IListItems[]) => {
       
        if (items.length > 0) {
@@ -110,18 +106,23 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         });
         return;
       }
-      const selectedIndex = index;
+      //const selectedIndex = index;
       
-      if(this.state.initialContainer && selectedIndex) {
-        items= this.state.initialContainer.filter((element) => (element.Title.charAt(0).toLowerCase() === selectedIndex.toLowerCase()));
-  
-      } else
-      {
+      if(this.state.initialContainer && index) {
+        
+        items= this.state.initialContainer.filter((element) => (element.Title.charAt(0).toLowerCase() === index.toLowerCase()));
+
+        if(index == "ALL")
+        {
+          items = this.state.initialContainer;
+        }
+
+      } else {
         items = this.state.initialContainer || [];
   
         return items;
       }
-      debugger;
+      
       this.setState({
         loading: false,
         items: items
@@ -153,14 +154,12 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
   
   public render(): React.ReactElement<IGlossaryProps> {
 
-  
+    //alert('hi');
    console.log(this.state.items);
     
   const items: JSX.Element[] = this.state.items.map((item: IListItems, i: number): JSX.Element => {
     return (
-      <li><div><strong>{item.Title}</strong></div><div>{item.Description.toString()}</div> </li> 
-
-      //{escape(this.props.listName)}
+      <li><div><strong>{item.Title}</strong></div><div>{item.Description}</div> </li> 
     );
   });
  const { loading, errorMessage, selectedIndex} = this.state;
@@ -177,7 +176,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         }
          
         <IndexNavigation
-         selectedIndex={selectedIndex}
+          selectedIndex={selectedIndex}
           onIndexSelect={this._loadlistitems.bind(this)}
           locale={this.props.locale} />
         {
@@ -188,7 +187,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
 {!loading &&
   !errorMessage &&
                 <div>
-                  <ul>
+                  <ul className ={styles.glist}>
                     {items}
                   </ul>
                 </div>
